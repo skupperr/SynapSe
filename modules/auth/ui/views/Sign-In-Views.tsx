@@ -8,6 +8,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -44,7 +45,8 @@ export const SignInView = () => {
         await authClient.signIn.email(
             {
                 email: data.email,
-                password: data.password
+                password: data.password,
+                callbackURL: "/"
             },
             {
                 onSuccess: () => {
@@ -57,7 +59,27 @@ export const SignInView = () => {
                 }
             }
         )
+    }
 
+    const onSubmitSocial = async (provider: "google" | "github") => {
+        setError(null);
+        setIsLoading(true)
+
+        await authClient.signIn.social(
+            {
+                provider: provider,
+                callbackURL: "/"
+            },
+            {
+                onSuccess: () => {
+                    setIsLoading(false);
+                },
+                onError: (error) => {
+                    setError(error.error.message || "Something went wrong")
+                    setIsLoading(false);
+                }
+            }
+        )
     }
 
     return (
@@ -142,11 +164,23 @@ export const SignInView = () => {
                                     </span>
                                 </div>
                                 <div className="grid grid-cols-2 gap-4">
-                                    <Button disabled={isLoading} variant="outline" type="button" className="w-full">
-                                        Google
+                                    <Button 
+                                        disabled={isLoading} 
+                                        variant="outline" 
+                                        type="button" 
+                                        className="w-full"
+                                        onClick={() => onSubmitSocial("google")}  
+                                    >
+                                        <FaGoogle/>
                                     </Button>
-                                    <Button disabled={isLoading} variant="outline" type="button" className="w-full">
-                                        GitHub
+                                    <Button 
+                                        disabled={isLoading} 
+                                        variant="outline"
+                                        type="button" 
+                                        className="w-full"
+                                        onClick={() => onSubmitSocial("github")}  
+                                    >
+                                        <FaGithub/>
                                     </Button>
                                 </div>
                                 <div className="text-center text-sm">
