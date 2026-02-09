@@ -7,8 +7,10 @@ import { columns } from "../components/columns";
 import { EmptyState } from "@/components/empty-state";
 import { useAgentsFilters } from "../../use-agent-filters";
 import { DataPagination } from "../components/agents-data-pagination";
+import { useRouter } from "next/navigation";
 
 export const AgentsView = () => {
+    const router = useRouter();
     const [filters, setfilters] = useAgentsFilters();
 
     const trpc = useTRPC();
@@ -22,7 +24,7 @@ export const AgentsView = () => {
                     description="Create an agent to join your meetings. Each agent will follow your instructions and can interact with participants during the call."
                 />
             ) : (
-                <DataTable data={data.items} columns={columns} />
+                <DataTable data={data.items} columns={columns} onRowClick={(row) => router.push(`agents/${row.id}`)}/>
             )}
             <DataPagination
                 page={filters.page}
