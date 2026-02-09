@@ -30,7 +30,7 @@ export const AgentIdViewHeader = ({ agentId, agentName, onEdit, onRemove }: Prop
                             </Link>
                         </BreadcrumbLink>
                     </BreadcrumbItem>
-                    <BreadcrumbSeparator className="text-foreground text-xl font-medium [&>svg]: size-4">
+                    <BreadcrumbSeparator className="text-foreground text-xl font-medium [&>svg]:size-4">
                         <ChevronRightIcon />
                     </BreadcrumbSeparator>
                     <BreadcrumbItem>
