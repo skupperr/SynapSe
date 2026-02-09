@@ -7,7 +7,7 @@ export const agentsInsertSchema = z.object({
 })
 
 export const meetingIdSchema = z.object({
-    id: z.string()
+    id: z.string().min(1, { message: "ID is required" })
 })
 
 export const agentsGetPaginationAchema = z.object({

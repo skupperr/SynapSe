@@ -108,7 +108,7 @@ export const agents = pgTable("agents", {
 })
 
 export const meetingStatus = pgEnum("meeting_status", [
-  "upcoming", "active", "completed", "processing", "cencelled"
+  "upcoming", "active", "completed", "processing", "cancelled"
 ])
 
 
@@ -130,5 +130,8 @@ export const meetings = pgTable("meetings", {
   recordingUrl: text("recording_url"),
   summary: text("summary"),
   createdAt: timestamp("created_at").notNull().defaultNow(),
-  updatedAt: timestamp("updated_at").notNull().defaultNow(),
+  updatedAt: timestamp("updated_at")
+    .notNull()
+    .defaultNow()
+    .$onUpdate(() => /* `@__PURE__` */ new Date()),
 });

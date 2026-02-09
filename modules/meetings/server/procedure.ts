@@ -2,18 +2,16 @@ import { db } from "@/db";
 import { meetings } from "@/db/schema";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
 import { meetingIdSchema, agentsGetPaginationAchema } from "../schemas";
-import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm";
+import { and, count, desc, eq, getTableColumns, ilike } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
 export const meetingsRouter = createTRPCRouter({
     getMany: protectedProcedure
         .input(agentsGetPaginationAchema)
         .query(async ({ ctx, input }) => {
-            
             const { search, page, pageSize } = input;
             const data = await db
                 .select({
-                    meetingCount: sql<number>`5`,
                     ...getTableColumns(meetings)
                 })
                 .from(meetings)
@@ -58,7 +56,7 @@ export const meetingsRouter = createTRPCRouter({
             )
         
         if(!existingMeeting){
-            throw new TRPCError ({code: "NOT_FOUND", message: "Agent not found"})
+            throw new TRPCError ({code: "NOT_FOUND", message: "Meeting not found"})
         }
             
         return existingMeeting
