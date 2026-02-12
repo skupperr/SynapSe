@@ -20,7 +20,6 @@ import {
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { CommandSelect } from '@/components/command-select';
-import { Divide } from 'lucide-react';
 import { GeneratedAvatar } from '@/components/generated-avatar';
 import { NewAgentDialog } from '@/modules/agents/ui/components/new-agent-dialog';
 
