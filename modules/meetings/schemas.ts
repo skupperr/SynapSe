@@ -1,9 +1,9 @@
 import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE, MAX_PAGE_SIZE, MIN_PAGE_SIZE } from '@/constants'
 import { z } from 'zod'
 
-export const agentsInsertSchema = z.object({
+export const meetingsInsertSchema = z.object({
     name: z.string().min(1, {message: "Name is required"}),
-    instructions: z.string().min(1, {message: "Instruction is required"})
+    agentId: z.string().min(1, {message: "Agent is required"})
 })
 
 export const meetingIdSchema = z.object({
@@ -20,6 +20,6 @@ export const agentsGetPaginationAchema = z.object({
     search: z.string().nullish()
 })
 
-export const agentsUpdateSchema = agentsInsertSchema.extend({
+export const meetingsUpdateSchema = meetingsInsertSchema.extend({
     id: z.string().min(1, {message: "ID is required"})
 })

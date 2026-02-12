@@ -1,7 +1,7 @@
 import { db } from "@/db";
 import { meetings } from "@/db/schema";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
-import { meetingIdSchema, agentsGetPaginationAchema } from "../schemas";
+import { meetingIdSchema, agentsGetPaginationAchema, meetingsInsertSchema, meetingsUpdateSchema } from "../schemas";
 import { and, count, desc, eq, getTableColumns, ilike } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
@@ -24,9 +24,9 @@ export const meetingsRouter = createTRPCRouter({
                 .orderBy(desc(meetings.createdAt), desc(meetings.id))
                 .limit(pageSize)
                 .offset((page - 1) * pageSize)
-            
+
             const [total] = await db
-                .select({ count: count()})
+                .select({ count: count() })
                 .from(meetings)
                 .where(
                     and(
@@ -34,33 +34,66 @@ export const meetingsRouter = createTRPCRouter({
                         search ? ilike(meetings.name, `%${search}%`) : undefined
                     )
                 );
-            
+
             const totalPages = Math.ceil(total.count / pageSize)
-                
-            return { items: data, total: total.count, totalPages}
+
+            return { items: data, total: total.count, totalPages }
         }),
 
     getOne: protectedProcedure
         .input(meetingIdSchema)
         .query(async ({ input, ctx }) => {
-        const [existingMeeting] = await db
-            .select({
-                ...getTableColumns(meetings)
-            })
-            .from(meetings)
-            .where(
-                and(
-                    eq(meetings.id, input.id),
-                    eq(meetings.userId, ctx.auth.user.id)
+            const [existingMeeting] = await db
+                .select({
+                    ...getTableColumns(meetings)
+                })
+                .from(meetings)
+                .where(
+                    and(
+                        eq(meetings.id, input.id),
+                        eq(meetings.userId, ctx.auth.user.id)
+                    )
                 )
-            )
-        
-        if(!existingMeeting){
-            throw new TRPCError ({code: "NOT_FOUND", message: "Meeting not found"})
-        }
-            
-        return existingMeeting
-    }),
 
-    
+            if (!existingMeeting) {
+                throw new TRPCError({ code: "NOT_FOUND", message: "Meeting not found" })
+            }
+
+            return existingMeeting
+        }),
+    create: protectedProcedure
+        .input(meetingsInsertSchema)
+        .mutation(async ({ input, ctx }) => {
+            const { name, agentId } = input;
+            const { auth } = ctx;
+
+            const [createdMeeting] = await db
+                .insert(meetings)
+                .values({ name: name, agentId: agentId, userId: auth.user.id })
+                .returning()
+            
+            // TODO: create stream call, upsert stream users
+
+            return createdMeeting;
+        }),
+
+    update: protectedProcedure
+            .input(meetingsUpdateSchema)
+            .mutation(async ({input, ctx}) => {
+                const { id, ...updateData } = input;
+                const [updatedMeeting] = await db
+                    .update(meetings)
+                    .set(updateData)
+                    .where(
+                        and(
+                            eq(meetings.id, id), eq(meetings.userId, ctx.auth.user.id)
+                        )
+                    )
+                    .returning()
+                
+                if(!updatedMeeting){
+                    throw new TRPCError({code:"NOT_FOUND", message:"Meeting not found"})
+                }
+                return updatedMeeting;
+            })
 })
