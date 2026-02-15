@@ -11,7 +11,7 @@ export const meetingIdSchema = z.object({
     id: z.string().min(1, { message: "ID is required" })
 })
 
-export const meetingsGetPaginationAchema = z.object({
+export const meetingsGetPaginationSchema = z.object({
     page: z.number().default(DEFAULT_PAGE),
     pageSize: z
         .number()

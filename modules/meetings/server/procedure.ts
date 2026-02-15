@@ -1,13 +1,13 @@
 import { db } from "@/db";
 import { agents, meetings } from "@/db/schema";
 import { createTRPCRouter, protectedProcedure } from "@/trpc/init";
-import { meetingIdSchema, meetingsGetPaginationAchema, meetingsInsertSchema, meetingsUpdateSchema } from "../schemas";
+import { meetingIdSchema, meetingsGetPaginationSchema, meetingsInsertSchema, meetingsUpdateSchema } from "../schemas";
 import { and, count, desc, eq, getTableColumns, ilike, sql } from "drizzle-orm";
 import { TRPCError } from "@trpc/server";
 
 export const meetingsRouter = createTRPCRouter({
     getMany: protectedProcedure
-        .input(meetingsGetPaginationAchema)
+        .input(meetingsGetPaginationSchema)
         .query(async ({ ctx, input }) => {
             const { search, page, pageSize, agentId, status } = input;
             const data = await db
