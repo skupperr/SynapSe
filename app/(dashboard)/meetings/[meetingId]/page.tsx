@@ -18,7 +18,7 @@ interface Props {
 const page = async ({ params }: Props) => {
   const { meetingId } = await params;
 
-  const session = auth.api.getSession({
+  const session = await auth.api.getSession({
     headers: await headers(),
   })
 
