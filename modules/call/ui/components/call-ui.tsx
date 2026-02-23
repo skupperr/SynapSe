@@ -16,8 +16,12 @@ export const CallUi = ({ meetingName }: Props) => {
     const handleJoin = async () => {
         if (!call) return;
 
-        await call.join();
-        setShow("call")
+        try {
+            await call.join();
+            setShow("call");
+        } catch (error) {
+            console.error("Failed to join call", error);
+        }
     }
 
     const handleLeave = async () => {
@@ -29,9 +33,9 @@ export const CallUi = ({ meetingName }: Props) => {
 
     return (
         <StreamTheme className="h-full">
-            {show === "lobby" && <CallLobby onJoin={handleJoin}/>}
-            {show === "call" && <CallActive onLeave={handleLeave} meetingName={meetingName}/>}
-            {show === "ended" && <CallEnded/>}
+            {show === "lobby" && <CallLobby onJoin={handleJoin} />}
+            {show === "call" && <CallActive onLeave={handleLeave} meetingName={meetingName} />}
+            {show === "ended" && <CallEnded />}
         </StreamTheme>
     )
 }
