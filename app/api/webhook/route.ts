@@ -44,9 +44,37 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: "Missing meetingId" }, { status: 400 });
         }
 
-        const [existingMeeting] = await db
-            .select()
-            .from(meetings)
+        // const [existingMeeting] = await db
+        //     .select()
+        //     .from(meetings)
+        //     .where(
+        //         and(
+        //             eq(meetings.id, meetingId),
+        //             not(eq(meetings.status, "completed")),
+        //             not(eq(meetings.status, "active")),
+        //             not(eq(meetings.status, "cancelled")),
+        //             not(eq(meetings.status, "processing")),
+        //         )
+        //     );
+
+        // if (!existingMeeting) {
+        //     return NextResponse.json({ error: "Meeting not found" }, { status: 404 });
+        // }
+
+        // await db
+        //     .update(meetings)
+        //     .set({
+        //         status: "active",
+        //         startedAt: new Date(),
+        //     })
+        //     .where(eq(meetings.id, existingMeeting.id));
+
+                const [updatedMeeting] = await db
+            .update(meetings)
+            .set({
+                status: "active",
+                startedAt: new Date(),
+            })
             .where(
                 and(
                     eq(meetings.id, meetingId),
@@ -55,24 +83,17 @@ export async function POST(req: NextRequest) {
                     not(eq(meetings.status, "cancelled")),
                     not(eq(meetings.status, "processing")),
                 )
-            );
+            )
+            .returning();
 
-        if (!existingMeeting) {
-            return NextResponse.json({ error: "Meeting not found" }, { status: 404 });
+        if (!updatedMeeting) {
+            return NextResponse.json({ error: "Meeting not found or already active" }, { status: 404 });
         }
-
-        await db
-            .update(meetings)
-            .set({
-                status: "active",
-                startedAt: new Date(),
-            })
-            .where(eq(meetings.id, existingMeeting.id));
 
         const [existingAgent] = await db
             .select()
             .from(agents)
-            .where(eq(agents.id, existingMeeting.agentId));
+            .where(eq(agents.id, updatedMeeting.agentId));
 
         if (!existingAgent) {
             return NextResponse.json({ error: "Agent not found" }, { status: 404 });
@@ -102,8 +123,14 @@ export async function POST(req: NextRequest) {
         if (!meetingId) {
             return NextResponse.json({ error: "Missing meetingId" }, { status: 400 });
         }
-        const call = streamVideo.video.call("default", meetingId);
-        await call.end();
+        
+        try {
+            const call = streamVideo.video.call("default", meetingId);
+            await call.end();
+        } catch (error) {
+            console.error("Error ending call: ", error);
+            return NextResponse.json({ error: "Failed to end call" }, { status: 500 });
+        }
     }
     return NextResponse.json({ status: "ok" })
 }
