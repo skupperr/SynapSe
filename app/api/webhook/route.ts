@@ -255,9 +255,12 @@ export async function POST(req: NextRequest) {
                     parts: [{ text: message.text ?? "" }],
                 }));
 
-            const history: Content[] = [
-                ...previousMessages,
-            ];
+            const history: Content[] = [...previousMessages];
+
+            // remove leading model messages
+            while (history.length && history[0].role !== "user") {
+                history.shift();
+            }
 
             if (event.user?.id === existingAgent.id) {
                 return NextResponse.json({ status: "ignored agent message" });
