@@ -57,15 +57,14 @@ export const Transcript = ({ meetingId }: Props) => {
                                             "mm:ss"
                                         )}
                                     </p>
-
-                                    <Highlighter
-                                        className="text-sm text-neutral-700"
-                                        highlightClassName="bg-yellow-200"
-                                        searchWords={[searchQuery]}
-                                        autoEscape={true}
-                                        textToHighlight={item.text}
-                                    />
                                 </div>
+                                <Highlighter
+                                    className="text-sm text-neutral-700"
+                                    highlightClassName="bg-yellow-200"
+                                    searchWords={[searchQuery]}
+                                    autoEscape={true}
+                                    textToHighlight={item.text}
+                                />
                             </div>
                         )
                     })}

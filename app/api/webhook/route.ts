@@ -226,7 +226,7 @@ export async function POST(req: NextRequest) {
             You are an AI assistant helping the user revisit a recently completed meeting.
             Below is a summary of the meeting, generated from the transcript:
             
-            ${existingMeeting.summary}
+            ${existingMeeting.summary ?? "No summary is available for this meeting."}
             
             The following are your original instructions from the live meeting assistant. Please continue to follow these behavioral guidelines as you assist the user:
             
@@ -288,7 +288,7 @@ export async function POST(req: NextRequest) {
                 variant: "botttsNeutral",
             });
 
-            streamChat.upsertUser({
+            await streamChat.upsertUser({
                 id: existingAgent.id,
                 name: existingAgent.name,
                 image: avatarUrl,

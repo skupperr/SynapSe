@@ -1,7 +1,5 @@
 import { useTRPC } from "@/trpc/client";
-import type { Channel as StreamChannel } from "stream-chat"
 import { useMutation } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import {
     useCreateChatClient,
     Chat,
@@ -16,14 +14,13 @@ import "stream-chat-react/dist/css/v2/index.css"
 
 interface Props {
     meetingId: string;
-    meetingName: string;
     userId: string;
     userName: string;
     userImage: string | undefined
 }
 
 export const ChatUI = ({
-    meetingId, meetingName, userId, userName, userImage
+    meetingId, userId, userName, userImage
 }: Props) => {
 
     const trpc = useTRPC();

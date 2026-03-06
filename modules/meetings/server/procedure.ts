@@ -57,7 +57,7 @@ export const meetingsRouter = createTRPCRouter({
                 .where(inArray(user.id, speakerIds))
                 .then((users) =>
                     users.map((user) => ({
-                        user,
+                        ...user,
                         image:
                             user.image ??
                             generateAvatarUri({ seed: user.name, variant: "initials" }),
@@ -70,9 +70,8 @@ export const meetingsRouter = createTRPCRouter({
                 .where(inArray(agents.id, speakerIds))
                 .then((agents) =>
                     agents.map((agent) => ({
-                        user,
+                        ...agent,
                         image:
-                            user.image ??
                             generateAvatarUri({ seed: agent.name, variant: "botttsNeutral" }),
                     }))
                 );
@@ -81,7 +80,7 @@ export const meetingsRouter = createTRPCRouter({
 
             const transcriptWithSpeakers = transcript.map((item) => {
                 const speaker = speakers.find(
-                    (speaker) => speaker.user.id === item.speaker_id
+                    (speaker) => speaker.id === item.speaker_id
                 );
 
                 if (!speaker) {
@@ -100,7 +99,7 @@ export const meetingsRouter = createTRPCRouter({
                 return {
                     ...item,
                     user: {
-                        name: speaker.user.name,
+                        name: speaker.name,
                         image: speaker.image,
                     },
                 };
