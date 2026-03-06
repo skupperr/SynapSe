@@ -34,3 +34,5 @@ export const meetingsUpdateSchema = meetingsInsertSchema.extend({
 })
 
 export const meetingsDeleteSchema = z.object({ id: z.string()} )
+
+export const getTranscriptSchema = z.object({ id: z.string() })
