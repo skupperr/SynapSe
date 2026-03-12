@@ -33,7 +33,7 @@ const page = async () => {
             <LoadingState title='Loading' description='This may take a while' />
         }>
             <ErrorBoundary fallback={
-                <ErrorState title="Error loading meetings" description="Something went wrong. Please try again later." />
+                <ErrorState title="Error loading plans" description="Something went wrong. Please try again later." />
             }>
                 <UpgradeView />
             </ErrorBoundary>

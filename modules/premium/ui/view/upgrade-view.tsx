@@ -31,7 +31,7 @@ export const UpgradeView = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {products.map((product) => {
             const isCurrentProduct = currentSubscription?.id === product.id
-            const isPremium = !!isCurrentProduct;
+            const isPremium = !!currentSubscription;
 
             let buttonText = "Upgrade";
             let onClick = () => authClient.checkout({products: [product.id]});
@@ -43,8 +43,6 @@ export const UpgradeView = () => {
               buttonText = "Change Plan";
               onClick = () => authClient.customer.portal();
             }
-
-            console.log(product);
 
             return(
               <PricingCard 

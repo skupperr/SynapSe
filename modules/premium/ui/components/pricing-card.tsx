@@ -100,7 +100,7 @@ export const PricingCard = ({
             </div>
 
             <div className="py-6">
-                <Separator className="opacity-10 Itext- [#5D6B68]" />
+                <Separator className="opacity-10 text-[#5D6B68]" />
             </div>
             <Button
                 className="w-full"
