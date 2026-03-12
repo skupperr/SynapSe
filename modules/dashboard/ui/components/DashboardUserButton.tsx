@@ -25,6 +25,7 @@ import { ChevronDownIcon, CreditCardIcon, LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export const DashboardUserButton = () => {
     const router = useRouter()
@@ -81,7 +82,13 @@ export const DashboardUserButton = () => {
                     <DrawerFooter>
                         <Button
                             variant="outline"
-                            onClick={() => { }}>
+                            onClick={async () => {
+                                try {
+                                    await authClient.customer.portal();
+                                } catch (error) {
+                                    toast.error("Failed to open billing portal");
+                                }
+                            }}>
                             <CreditCardIcon className="size-4 text-black" />
                             Billing
                         </Button>
@@ -133,7 +140,9 @@ export const DashboardUserButton = () => {
                     </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="cursor-pointer justify-between items-center flex">
+                <DropdownMenuItem
+                    onClick={() => authClient.customer.portal()}
+                    className="cursor-pointer justify-between items-center flex">
                     Billing
                     <CreditCardIcon className="size-4" />
                 </DropdownMenuItem>

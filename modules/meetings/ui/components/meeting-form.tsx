@@ -20,9 +20,9 @@ import {
 import { toast } from 'sonner';
 import { useState } from 'react';
 import { CommandSelect } from '@/components/command-select';
-import { Divide } from 'lucide-react';
 import { GeneratedAvatar } from '@/components/generated-avatar';
 import { NewAgentDialog } from '@/modules/agents/ui/components/new-agent-dialog';
+import { useRouter } from 'next/navigation';
 
 interface MeetingFormProps {
     onSuccess?: (id?: string) => void;
@@ -33,6 +33,7 @@ interface MeetingFormProps {
 export const MeetingForm = ({ onSuccess, onCancel, initialValues }: MeetingFormProps) => {
     const trpc = useTRPC();
     const queryClient = useQueryClient();
+    const router = useRouter();
 
     const [openNewAgentDialog, setOpenNewAgentDialog] = useState(false);
     const [agentSearch, setAgentSearch] = useState("")
@@ -44,13 +45,15 @@ export const MeetingForm = ({ onSuccess, onCancel, initialValues }: MeetingFormP
             onSuccess: async (data) => {
                 await queryClient.invalidateQueries(trpc.meetings.getMany.queryOptions({}))
 
-                // TODO: invalidate free tier usage
+                await queryClient.invalidateQueries(trpc.premium.getFreeUsage.queryOptions())
                 onSuccess?.(data.id)
             },
             onError: (error) => {
                 toast.error(error.message)
 
-                // TODO: check if error code is "FORBIDDEN", ridirect to "/upgrade"
+                if(error.data?.code === "FORBIDDEN"){
+                    router.push("/upgrade");
+                }
             }
         })
     )

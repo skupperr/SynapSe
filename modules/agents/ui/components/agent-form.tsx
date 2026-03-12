@@ -19,6 +19,7 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 interface AgentFormProps {
     onSuccess?: () => void;
@@ -29,19 +30,22 @@ interface AgentFormProps {
 export const AgentForm = ({ onSuccess, onCancel, initialValues }: AgentFormProps) => {
     const trpc = useTRPC();
     const queryClient = useQueryClient();
+    const router = useRouter();
 
     const createAgent = useMutation(
         trpc.agents.create.mutationOptions({
             onSuccess: async () => {
                 await queryClient.invalidateQueries(trpc.agents.getMany.queryOptions({}))
+                await queryClient.invalidateQueries(trpc.premium.getFreeUsage.queryOptions())
 
-                // TODO: invalidate free tier usage
                 onSuccess?.()
             },
             onError: (error) => {
                 toast.error(error.message)
 
-                // TODO: check if error code is "FORBIDDEN", ridirect to "/upgrade"
+                if(error.data?.code === "FORBIDDEN"){
+                    router.push("/upgrade");
+                }
             }
         })
     )
