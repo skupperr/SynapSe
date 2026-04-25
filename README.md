@@ -3,14 +3,16 @@
 [![Next.js](https://img.shields.io/badge/Next.js-16.1.6-black?logo=next.js&logoColor=white)](https://nextjs.org/)
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)](https://react.dev/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4.x-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Latest-336791?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
-[![Drizzle ORM](https://img.shields.io/badge/Drizzle_ORM-0.45.1-C5D9F1?logo=drizzle&logoColor=white)](https://orm.drizzle.team/)
+[![Tailwind CSS](https://img.shields.io/badge/Styling-TailwindCSS-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Neon-34d59a?logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Drizzle ORM](https://img.shields.io/badge/Drizzle-ORM-C5D9F1?logo=drizzle&logoColor=white)](https://orm.drizzle.team/)
 [![tRPC](https://img.shields.io/badge/tRPC-11.9.0-398CCF?logo=trpc&logoColor=white)](https://trpc.io/)
 [![Stream.io](https://img.shields.io/badge/Stream.io-Video_&_Chat-00B4D8?logo=stream&logoColor=white)](https://getstream.io/)
-[![Inngest](https://img.shields.io/badge/Inngest-3.52.4-4F46E5?logo=inngest&logoColor=white)](https://www.inngest.com/)
+[![Inngest](https://img.shields.io/badge/Background%20jobs-Inngest-4F46E5?logo=inngest&logoColor=white)](https://www.inngest.com/)
 [![React Query](https://img.shields.io/badge/React_Query-5.90.20-FF4154?logo=react-query&logoColor=white)](https://tanstack.com/query/latest)
-[![Better Auth](https://img.shields.io/badge/Better_Auth-1.8.2-222222?logo=auth&logoColor=white)](https://www.better-auth.com/)
+[![Better Auth](https://img.shields.io/badge/Authentication-Better_Auth-222222?logo=betterauth&logoColor=white)](https://www.better-auth.com/)
+[![Polar](https://img.shields.io/badge/Polar-Billing%20&%20Subscription-222222?logo=auth&logoColor=white)](https://www.better-auth.com/)
+![Sentry](https://img.shields.io/badge/Monitoring-Sentry-362D59?logo=sentry)
 [![License](https://img.shields.io/badge/License-MIT-green)](https://github.com/yourusername/meet-ai/blob/main/LICENSE)
 
 ## Table of Contents
@@ -68,6 +70,7 @@ SynapSe is a full-stack web application that enables users to schedule, conduct,
 | **Background Jobs** | Inngest | 3.52.4 |
 | **State Management** | TanStack React Query | 5.90.20 |
 | **Form Handling** | React Hook Form + Zod | 7.71.1 / 4.3.6 |
+| **Monitoring** | Sentry | 10.29.0 |
 
 ## Architecture
 
