@@ -17,10 +17,12 @@ export const Transcript = ({ meetingId }: Props) => {
 
     const trpc = useTRPC();
     const { data } = useQuery(trpc.meetings.getTranscript.queryOptions({ id: meetingId }))
+    // console.log(data);
     const [searchQuery, setSearchQuery] = useState("");
     const filteredData = (data ?? []).filter((item) =>
         item.text.toString().toLowerCase().includes(searchQuery.toLowerCase())
     );
+    console.log(filteredData);
 
     return (
         <div className="bg-white rounded-lg border px-4 py-5 flex flex-col gap-y-4 w-full">
@@ -45,8 +47,8 @@ export const Transcript = ({ meetingId }: Props) => {
                                 <div className="flex gap-x-2 items-center">
                                     <Avatar className="size-6">
                                         <AvatarImage
-                                            src={item.user.image?.toString() ?? generateAvatarUri({
-                                                seed: item.user.name.toString(), variant: "initials"
+                                            src={item.user.image ?? generateAvatarUri({
+                                                seed: item.user.name.toString(), variant: "botttsNeutral"
                                             })}
                                             alt="User Avatar" />
                                     </Avatar>

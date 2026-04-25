@@ -9,8 +9,8 @@ import Link from "next/link";
 export const DashboardTrial = () => {
     const trpc = useTRPC();
     const { data } = useQuery(trpc.premium.getFreeUsage.queryOptions());
-
     if (!data) return null;
+    
 
     return (
         <div className="border border-border/10 rounded-lg w-full bg-white/5 flex flex-col gap-y-2">
