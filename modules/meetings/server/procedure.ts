@@ -106,7 +106,6 @@ export const meetingsRouter = createTRPCRouter({
             })
 
             return transcriptWithSpeakers;
-
         }),
 
 

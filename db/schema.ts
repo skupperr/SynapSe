@@ -2,11 +2,17 @@ import { relations } from "drizzle-orm";
 import { nanoid } from "nanoid";
 import { pgTable, text, timestamp, boolean, index, pgEnum } from "drizzle-orm/pg-core";
 
+export const user_tier = pgEnum("user_tier", [
+  "free", "monthly", "yearly", "enterprise"
+])
+
 export const user = pgTable("user", {
   id: text("id").primaryKey(),
   name: text("name").notNull(),
   email: text("email").notNull().unique(),
   emailVerified: boolean("email_verified").default(false).notNull(),
+  tier: user_tier("tier").notNull().default("free"),
+  tierExpiresAt: timestamp("tier_expires_at"),
   image: text("image"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at")
